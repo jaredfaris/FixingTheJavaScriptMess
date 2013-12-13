@@ -19,7 +19,7 @@ module.exports = {
     
   
     allVendors: function(req, res) {
-        res.view('vendor/allVendors');
+        res.view({pageTitle: 'Vendors'});
     },
 
   /**

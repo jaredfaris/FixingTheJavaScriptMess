@@ -35,11 +35,13 @@ module.exports.routes = {
   '/': {
     view: 'static/index'
   },
-  '/Vendor': {
-      view: 'vendor/allVendors'
+  '/Vendors': {
+      controller: 'vendor',
+      action: 'allVendors'
   },
-  '/Part': {
-      view: 'part/allParts'
+  '/Parts': {
+      controller: 'part',
+      action: 'allParts'
   }
 
   /*

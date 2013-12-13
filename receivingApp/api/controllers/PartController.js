@@ -18,7 +18,7 @@
 module.exports = {
     
   allParts: function(req, res) {
-    res.view('part/allParts');
+      res.view({pageTitle: 'Parts'});
   },
 
 
