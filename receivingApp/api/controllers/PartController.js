@@ -1,5 +1,5 @@
 /**
- * VendorController
+ * PartController
  *
  * @module      :: Controller
  * @description	:: A set of functions called `actions`.
@@ -17,14 +17,14 @@
 
 module.exports = {
     
-  
-    allVendors: function(req, res) {
-        res.view('vendor/allVendors');
-    },
+  allParts: function(req, res) {
+    res.view('part/allParts');
+  },
+
 
   /**
    * Overrides for the settings in `config/controllers.js`
-   * (specific to VendorController)
+   * (specific to PartController)
    */
   _config: {}
 
