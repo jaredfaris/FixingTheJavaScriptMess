@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <script type="text/javascript" src="vendor/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="vendor/jquery.mockjax.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+
+    $.mockjax({
+       url: '/api/hello',
+       responseTime: 250,
+       responseText: {
+           status: 'okay',
+           response: 'hello'
+       }
+    });
+
+    function callAjax() {
+        $.getJSON('/api/hello', function(response) {
+            if (response.status == "okay" && response.response) {
+                alert(response.response);
+            }
+        })
+    }
+
+    function failAjax() {
+        $.getJSON('/api/fail', function(response) {
+            console.log(response);
+        }, function(error) {
+            console.log(error);
+        })
+    }
+
+</script>
+
+<div class="controls">
+    <button id="clicky" onclick="callAjax()">Clicky</button>
+</div>
+
+<div class="oops">
+    <button id="dontclick" onclick="failAjax()">Don't Click</button>
+</div>
+
+</body>
+</html>
