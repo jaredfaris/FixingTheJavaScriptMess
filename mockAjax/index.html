@@ -3,19 +3,11 @@
 <head>
     <script type="text/javascript" src="vendor/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="vendor/jquery.mockjax.js"></script>
+    <script type="text/javascript" src="app/ajax.js"></script>
 </head>
 <body>
 
 <script type="text/javascript">
-
-    $.mockjax({
-       url: '/api/hello',
-       responseTime: 250,
-       responseText: {
-           status: 'okay',
-           response: 'hello'
-       }
-    });
 
     function callAjax() {
         $.getJSON('/api/hello', function(response) {
