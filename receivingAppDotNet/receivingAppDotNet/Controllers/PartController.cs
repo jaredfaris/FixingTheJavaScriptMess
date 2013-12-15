@@ -45,13 +45,6 @@ namespace receivingAppDotNet.Controllers
         }
 
         //
-        // GET: /Part/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        //
         // GET: /Part/Create
         public ActionResult Create()
         {
@@ -79,17 +72,21 @@ namespace receivingAppDotNet.Controllers
         // GET: /Part/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var model = Parts.Find(x => x.Id == id);
+
+            return View(model);
         }
 
         //
         // POST: /Part/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Part part)
         {
             try
             {
-                // TODO: Add update logic here
+                // Totally hacky but this is an example
+                Parts.Remove(Parts.Find(x => x.Id == id));
+                Parts.Add(part);
 
                 return RedirectToAction("Index");
             }

@@ -46,13 +46,6 @@ namespace receivingAppDotNet.Controllers
         }
 
         //
-        // GET: /Vendor/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        //
         // GET: /Vendor/Create
         public ActionResult Create()
         {
@@ -80,17 +73,21 @@ namespace receivingAppDotNet.Controllers
         // GET: /Vendor/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var model = Vendors.Find(x => x.Id == id);
+
+            return View(model);
         }
 
         //
         // POST: /Vendor/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Vendor vendor)
         {
             try
             {
-                // TODO: Add update logic here
+                // Totally hacky but this is an example
+                Vendors.Remove(Vendors.Find(x => x.Id == id));
+                Vendors.Add(vendor);
 
                 return RedirectToAction("Index");
             }
