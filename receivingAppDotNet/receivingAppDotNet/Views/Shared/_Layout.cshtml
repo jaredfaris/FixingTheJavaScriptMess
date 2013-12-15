@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+    <body>
+        <div class="container">
+            <div class="page-header">
+                <h1>AcmeCo Receiving</h1>
+                <p class="lead">We get stuff.</p>
+            </div>
+            
+            @Request.Url.AbsolutePath
+
+            <div class="row row-offcanvas row-offcanvas-right">
+
+                <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+                    <div class="list-group">
+                        <a href="/" class="list-group-item <%= (typeof pageTitle === 'undefined') ? 'active' : ''%>">Manifests</a>
+                        <a href="~/Vendor" class="list-group-item <%= (typeof pageTitle !== 'undefined' && pageTitle === 'Vendors') ? 'active' : ''%>">Vendors</a>
+                        <a href="~/Part" class="list-group-item <%= (typeof pageTitle !== 'undefined' && pageTitle === 'Parts') ? 'active' : ''%>">Parts</a>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-9">
+                    @RenderBody()
+                </div>
+
+            </div>
+        </div>        
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    
+        <link rel="stylesheet" href="/styles/bootstrap.css">
+        <link rel="stylesheet" href="/styles/offcanvas.css">
+
+    </body>
+</html>
