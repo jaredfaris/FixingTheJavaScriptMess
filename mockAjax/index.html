@@ -3,6 +3,7 @@
 <head>
     <script type="text/javascript" src="vendor/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="vendor/jquery.mockjax.js"></script>
+    <script type="text/javascript" src="vendor/underscore-min.js"></script>
     <script type="text/javascript" src="app/ajax.js"></script>
 </head>
 <body>
@@ -18,11 +19,20 @@
     }
 
     function failAjax() {
-        $.getJSON('/api/fail', function(response) {
-            console.log(response);
-        }, function(error) {
-            console.log(error);
+        $.getJSON('/api/fail');
+    }
+
+    function removeItem() {
+        $.ajax('/part/delete/2', {
+            type: "POST"
         })
+    }
+
+    function countParts() {
+        $.getJSON('/part/')
+            .done(function(data) {
+                console.log(data.length);
+            })
     }
 
 </script>
@@ -33,6 +43,10 @@
 
 <div class="oops">
     <button id="dontclick" onclick="failAjax()">Don't Click</button>
+</div>
+
+<div class="testing">
+    <button id="deleteit" onclick="removeItem()">Remove Item</button>
 </div>
 
 </body>
