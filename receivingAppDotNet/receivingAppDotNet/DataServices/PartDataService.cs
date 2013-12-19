@@ -30,7 +30,8 @@ namespace receivingAppDotNet.DataServices
                 {
                     Id = i,
                     Name = fakeNames[i],
-                    Weight = i
+                    Weight = i,
+                    Discontinued = (i % 2 == 0) ? true : false
                 });
             }            
         }

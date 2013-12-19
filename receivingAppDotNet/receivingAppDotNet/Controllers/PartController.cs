@@ -11,7 +11,12 @@ namespace receivingAppDotNet.Controllers
         // GET: /Part/
         public ActionResult Index()
         {
-            return View(PartDataService.Parts.OrderBy(x => x.Name));
+            return View(PartDataService.Parts.Where(x => !x.Discontinued).OrderBy(x => x.Name));
+        }
+
+        public PartialViewResult DiscontinuedParts()
+        {
+            return PartialView(PartDataService.Parts.Where(x => x.Discontinued).OrderBy(x => x.Name));
         }
 
         //

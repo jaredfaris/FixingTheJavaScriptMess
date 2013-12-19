@@ -187,6 +187,7 @@
     <Content Include="Views\Part\Edit.cshtml" />
     <Content Include="Views\Vendor\Details.cshtml" />
     <Content Include="Views\Vendor\Edit.cshtml" />
+    <Content Include="Views\Part\DiscontinuedParts.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

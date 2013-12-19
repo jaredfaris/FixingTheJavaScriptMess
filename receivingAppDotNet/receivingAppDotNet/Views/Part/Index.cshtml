@@ -10,30 +10,60 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Weight)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Weight)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-        </td>
-    </tr>
-}
+<div id="currentParts">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Weight)
+            </th>
+            <th></th>
+        </tr>
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Weight)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>   
+</div>
+
+
+<p>
+    <a id="showDiscontinuedParts" href="#" onclick="showDiscontinuedParts()">Show Discontinued Parts</a>
+    <a id="hideDiscontinuedParts" href="#" onclick="hideDiscontinuedParts()" style="display: none;">Hide Discontinued Parts</a>
+</p>
+
+<div id="discontinuedParts">
+    
+</div>
+
+<script>
+    showDiscontinuedParts = function() {
+        $('#showDiscontinuedParts').hide();
+        $('#hideDiscontinuedParts').show();
+
+        $('#discontinuedParts').load("@Url.Action("DiscontinuedParts")");
+    };
+
+    hideDiscontinuedParts = function() {
+        $('#showDiscontinuedParts').show();
+        $('#hideDiscontinuedParts').hide();
+
+        $('#discontinuedParts').html('');
+    };
+</script>
