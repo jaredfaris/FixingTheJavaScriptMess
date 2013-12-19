@@ -2,47 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using receivingAppDotNet.DataServices;
 using receivingAppDotNet.Models;
 
 namespace receivingAppDotNet.Controllers
 {
     public class VendorController : Controller
     {
-        private static readonly List<Vendor> Vendors = new List<Vendor>();
-
-        static VendorController()
-        {
-            string[] fakeNames = {"Acme", 
-                                     "Bob's Hardware", 
-                                     "CogCo", 
-                                     "DisIsAFakeName", 
-                                     "Emeryville Supply",
-                                     "Fakestown Indisutrial",
-                                     "Great Company LTD",
-                                     "Having trouble coming up with more fake names INC",
-                                     "IM Nearly Out of Ideas Co",
-                                     "My Fake Company"
-                                 };
-
-            for (var i = 0; i < 10; i++)
-            {
-                Vendors.Add(new Vendor
-                {
-                    Id = i,
-                    Address1 = String.Format("{0}{0}{0} Main Street", i),
-                    City = "Springfield",
-                    State = "IL",
-                    Name = fakeNames[i],
-                    Zip = String.Format("{0}{0}{0}{0}{0}", i)
-                });
-            }
-        }
-
         //
         // GET: /Vendor/
         public ActionResult Index()
         {
-            return View(Vendors.OrderBy(x => x.Name));
+            return View(VendorDataService.Vendors.OrderBy(x => x.Name));
         }
 
         //
@@ -59,7 +30,7 @@ namespace receivingAppDotNet.Controllers
         {
             try
             {
-                Vendors.Add(vendor);
+                VendorDataService.Vendors.Add(vendor);
 
                 return RedirectToAction("Index");
             }
@@ -73,7 +44,7 @@ namespace receivingAppDotNet.Controllers
         // GET: /Vendor/Edit/5
         public ActionResult Edit(int id)
         {
-            var model = Vendors.Find(x => x.Id == id);
+            var model = VendorDataService.Vendors.Find(x => x.Id == id);
 
             return View(model);
         }
@@ -86,8 +57,8 @@ namespace receivingAppDotNet.Controllers
             try
             {
                 // Totally hacky but this is an example
-                Vendors.Remove(Vendors.Find(x => x.Id == id));
-                Vendors.Add(vendor);
+                VendorDataService.Vendors.Remove(VendorDataService.Vendors.Find(x => x.Id == id));
+                VendorDataService.Vendors.Add(vendor);
 
                 return RedirectToAction("Index");
             }
@@ -101,7 +72,7 @@ namespace receivingAppDotNet.Controllers
         // GET: /Vendor/Delete/5
         public ActionResult Delete(int id)
         {
-            var model = Vendors.Find(x => x.Id == id);
+            var model = VendorDataService.Vendors.Find(x => x.Id == id);
 
             return View(model);
         }
@@ -113,7 +84,7 @@ namespace receivingAppDotNet.Controllers
         {
             try
             {
-                Vendors.Remove(Vendors.Find(x => x.Id == id));
+                VendorDataService.Vendors.Remove(VendorDataService.Vendors.Find(x => x.Id == id));
 
                 return RedirectToAction("Index");
             }

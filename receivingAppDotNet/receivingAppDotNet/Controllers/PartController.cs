@@ -1,47 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
+using receivingAppDotNet.DataServices;
 using receivingAppDotNet.Models;
 
 namespace receivingAppDotNet.Controllers
 {
     public class PartController : Controller
     {
-
-        private static readonly List<Part> Parts = new List<Part>();
-
-        static PartController()
-        {
-            string[] fakeNames = {"Anchor", 
-                                     "Bottle", 
-                                     "Bigger Hammer",
-                                     "Cog", 
-                                     "Everburning Torch",
-                                     "Hammer",
-                                     "Really Big Hammer",
-                                     "Screwdriver",
-                                     "Super Big Hammer",
-                                     "Unstoppable Hammer", 
-                                 };
-
-            for (var i = 0; i < 10; i++)
-            {
-                Parts.Add(new Part
-                {
-                    Id = i,
-                    Name = fakeNames[i],
-                    Weight = i
-                });
-            }
-        }
-
         //
         // GET: /Part/
         public ActionResult Index()
         {
-            return View(Parts.OrderBy(x => x.Name));
+            return View(PartDataService.Parts.OrderBy(x => x.Name));
         }
 
         //
@@ -58,7 +28,7 @@ namespace receivingAppDotNet.Controllers
         {
             try
             {
-                Parts.Add(part);
+                PartDataService.Parts.Add(part);
 
                 return RedirectToAction("Index");
             }
@@ -72,7 +42,7 @@ namespace receivingAppDotNet.Controllers
         // GET: /Part/Edit/5
         public ActionResult Edit(int id)
         {
-            var model = Parts.Find(x => x.Id == id);
+            var model = PartDataService.Parts.Find(x => x.Id == id);
 
             return View(model);
         }
@@ -85,8 +55,8 @@ namespace receivingAppDotNet.Controllers
             try
             {
                 // Totally hacky but this is an example
-                Parts.Remove(Parts.Find(x => x.Id == id));
-                Parts.Add(part);
+                PartDataService.Parts.Remove(PartDataService.Parts.Find(x => x.Id == id));
+                PartDataService.Parts.Add(part);
 
                 return RedirectToAction("Index");
             }
@@ -100,7 +70,7 @@ namespace receivingAppDotNet.Controllers
         // GET: /Part/Delete/5
         public ActionResult Delete(int id)
         {
-            var model = Parts.Find(x => x.Id == id);
+            var model = PartDataService.Parts.Find(x => x.Id == id);
 
             return View(model);
         }
@@ -112,7 +82,7 @@ namespace receivingAppDotNet.Controllers
         {
             try
             {
-                Parts.Remove(Parts.Find(x => x.Id == id));
+                PartDataService.Parts.Remove(PartDataService.Parts.Find(x => x.Id == id));
 
                 return RedirectToAction("Index");
             }
