@@ -34,7 +34,12 @@
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    
+                    @using (Html.BeginForm("Delete", "Part"))
+                    {
+                        <input type="hidden" name="id" value="@item.Id"/>
+                        <a class="deletePartLink" href="#">Delete</a>
+                    }
                 </td>
             </tr>
         }
@@ -52,12 +57,25 @@
     
 </div>
 
+<div style="display: none;">
+    <div id="dialog-confirm" title="Delete this item?">
+        <p>Delete this item?</p>
+    </div>    
+</div>
+
 <script>
-    showDiscontinuedParts = function() {
+    
+    // javascript called from inline in a link
+    showDiscontinuedParts = function () {
+
+        // demo - show them what 'this' means here
+
         $('#showDiscontinuedParts').hide();
         $('#hideDiscontinuedParts').show();
 
         $('#discontinuedParts').load("@Url.Action("DiscontinuedParts")");
+
+        return false;
     };
 
     hideDiscontinuedParts = function() {
@@ -65,5 +83,33 @@
         $('#hideDiscontinuedParts').hide();
 
         $('#discontinuedParts').html('');
+
+        return false;
     };
+
+
+    // javascript called via an event
+    $('.deletePartLink').on('click', function (){
+
+        // demo - show them what 'this' means here
+
+        var form = $(this).parents('form');
+
+        $("#dialog-confirm").dialog({
+            resizable: false,
+            height: 200,
+            modal: true,
+            buttons: {
+                "Delete all items": function () {
+                    $(this).dialog("close");
+                    form.submit();
+                },
+                Cancel: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        return false;
+    });
 </script>
