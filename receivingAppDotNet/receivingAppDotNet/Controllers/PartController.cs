@@ -43,33 +43,6 @@ namespace receivingAppDotNet.Controllers
             }
         }
 
-        //
-        // GET: /Part/Edit/5
-        public ActionResult Edit(int id)
-        {
-            var model = PartDataService.Parts.Find(x => x.Id == id);
-
-            return View(model);
-        }
-
-        //
-        // POST: /Part/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, Part part)
-        {
-            try
-            {
-                // Totally hacky but this is an example
-                PartDataService.Parts.Remove(PartDataService.Parts.Find(x => x.Id == id));
-                PartDataService.Parts.Add(part);
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
         //
         // GET: /Part/Delete/5

@@ -51,9 +51,6 @@
             <td>
                 @using (Html.BeginForm("Delete", "Vendor"))
                 {
-
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                    @:|
                     <input type="hidden" name="id" value="@item.Id"/>
                     <a class="deleteVendorLink" href="#">Delete</a>
                 }
