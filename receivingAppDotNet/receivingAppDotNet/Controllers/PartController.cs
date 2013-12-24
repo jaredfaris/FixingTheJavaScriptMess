@@ -14,9 +14,9 @@ namespace receivingAppDotNet.Controllers
             return View(PartDataService.Parts.Where(x => !x.Discontinued).OrderBy(x => x.Name));
         }
 
-        public PartialViewResult DiscontinuedParts()
+        public JsonResult DiscontinuedParts()
         {
-            return PartialView(PartDataService.Parts.Where(x => x.Discontinued).OrderBy(x => x.Name));
+            return Json(PartDataService.Parts.Where(x => x.Discontinued).OrderBy(x => x.Name), JsonRequestBehavior.AllowGet);
         }
 
         //

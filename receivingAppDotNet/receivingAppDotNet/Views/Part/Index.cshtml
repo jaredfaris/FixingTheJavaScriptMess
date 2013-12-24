@@ -115,14 +115,28 @@
         });
     });
 
-
     window.toggleDiscontinuedParts = function() {
         var isShowing = $('#toggleDiscontinuedParts').hasClass('expanded');
 
         if (!isShowing) {
             // show the parts
             $('#toggleDiscontinuedParts').text('Hide Discontinued Parts').addClass('expanded');
-            $('#discontinuedParts').load("@Url.Action("DiscontinuedParts")");
+
+            $.ajax({
+                url: '/Part/DiscontinuedParts',
+                type: 'GET',
+                context: this
+            }).done(function (result) {
+                var markup = '<table class="table"><tr><th>Name</th><th>Weight</th><th></th></tr>';
+
+                _.each(result, function(item) {
+                    markup += "<tr><td>" + item.Name + "</td><td>" + item.Weight + "</td><td></td></tr>";
+                });
+
+                markup += "</table>";
+
+                $('#discontinuedParts').html(markup);
+            });
         } else {
             // hide the parts
             $('#toggleDiscontinuedParts').text('Show Discontinued Parts').removeClass('expanded');

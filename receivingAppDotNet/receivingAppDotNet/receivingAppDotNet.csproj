@@ -245,12 +245,8 @@
     <Content Include="Views\Vendor\Create.cshtml" />
     <Content Include="Views\Part\Create.cshtml" />
     <Content Include="Views\Part\Index.cshtml" />
-    <Content Include="Views\Vendor\Delete.cshtml" />
-    <Content Include="Views\Part\Delete.cshtml" />
     <Content Include="Views\Part\Details.cshtml" />
-    <Content Include="Views\Part\Edit.cshtml" />
     <Content Include="Views\Vendor\Details.cshtml" />
-    <Content Include="Views\Vendor\Edit.cshtml" />
     <Content Include="Views\Part\DiscontinuedParts.cshtml" />
   </ItemGroup>
   <ItemGroup />
