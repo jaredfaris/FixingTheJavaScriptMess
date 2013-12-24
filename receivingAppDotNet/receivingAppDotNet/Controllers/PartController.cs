@@ -33,13 +33,16 @@ namespace receivingAppDotNet.Controllers
         {
             try
             {
-                PartDataService.Parts.Add(part);
+                part = PartDataService.Add(part);
 
-                return RedirectToAction("Index");
+                return new JsonResult
+                {
+                    Data = part
+                };
             }
             catch
             {
-                return View();
+                return null;
             }
         }
 
@@ -75,9 +78,9 @@ namespace receivingAppDotNet.Controllers
         // GET: /Part/Delete/5
         public ActionResult Delete(int id)
         {
-            var model = PartDataService.Parts.Find(x => x.Id == id);
+            PartDataService.Parts.Find(x => x.Id == id);
 
-            return View(model);
+            return null;
         }
 
         //
@@ -87,14 +90,14 @@ namespace receivingAppDotNet.Controllers
         {
             try
             {
-                PartDataService.Parts.Remove(PartDataService.Parts.Find(x => x.Id == id));
-
-                return RedirectToAction("Index");
+                PartDataService.Remove(PartDataService.Parts.Find(x => x.Id == id));
             }
             catch
             {
-                return View();
+                return null;
             }
+
+            return null;
         }
     }
 }

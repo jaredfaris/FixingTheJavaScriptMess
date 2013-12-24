@@ -30,13 +30,16 @@ namespace receivingAppDotNet.Controllers
         {
             try
             {
-                VendorDataService.Vendors.Add(vendor);
+                vendor = VendorDataService.Add(vendor);
 
-                return RedirectToAction("Index");
+                return new JsonResult
+                {
+                    Data = vendor
+                };
             }
             catch
             {
-                return View();
+                return null;
             }
         }
 
@@ -85,13 +88,13 @@ namespace receivingAppDotNet.Controllers
             try
             {
                 VendorDataService.Vendors.Remove(VendorDataService.Vendors.Find(x => x.Id == id));
-
-                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return null;
             }
+
+            return null;
         }
     }
 }

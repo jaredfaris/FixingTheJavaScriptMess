@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using receivingAppDotNet.Models;
 
 namespace receivingAppDotNet.DataServices
@@ -39,6 +38,17 @@ namespace receivingAppDotNet.DataServices
                     Zip = String.Format("{0}{0}{0}{0}{0}", i)
                 });
             }           
+        }
+
+        public static Vendor Add(Vendor vendor)
+        {
+            var newId = Vendors.Any() ? Vendors.Max(x => x.Id) + 1 : 1;
+
+            vendor.Id = newId;
+
+            Vendors.Add(vendor);
+
+            return vendor;
         }
     }
 }
