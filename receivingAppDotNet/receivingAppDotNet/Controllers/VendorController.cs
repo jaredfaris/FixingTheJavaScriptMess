@@ -44,34 +44,6 @@ namespace receivingAppDotNet.Controllers
         }
 
         //
-        // GET: /Vendor/Edit/5
-        public ActionResult Edit(int id)
-        {
-            var model = VendorDataService.Vendors.Find(x => x.Id == id);
-
-            return View(model);
-        }
-
-        //
-        // POST: /Vendor/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, Vendor vendor)
-        {
-            try
-            {
-                // Totally hacky but this is an example
-                VendorDataService.Vendors.Remove(VendorDataService.Vendors.Find(x => x.Id == id));
-                VendorDataService.Vendors.Add(vendor);
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
         // GET: /Vendor/Delete/5
         public ActionResult Delete(int id)
         {

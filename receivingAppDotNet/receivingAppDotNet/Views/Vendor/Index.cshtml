@@ -32,7 +32,8 @@
 
     @foreach (var item in Model)
     {
-        <tr data-partId="@item.Id">
+        <tr data-vendorid="@item.Id">
+            <input type="hidden" name="id" value="@item.Id" />
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -49,14 +50,7 @@
                 @Html.DisplayFor(modelItem => item.Zip)
             </td>
             <td>
-                @using (Html.BeginForm("Delete", "Vendor"))
-                {
-
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                    @:|
-                    <input type="hidden" name="id" value="@item.Id" />
-                    <a class="deleteVendorLink" href="#">Delete</a>
-                }
+                <a class="deleteVendorLink" href="#">Delete</a>
             </td>
         </tr>
     }
@@ -130,14 +124,13 @@
                     }).done(function (result) {
                         // Look at all this lovely markup
                         $('#vendorsList tbody').append('' +
-                            '<tr><td>' + result.Name + '</td>' +
+                            '<tr><input type="hidden" name="id" value="' + result.Id + '">' + 
+                            '<td>' + result.Name + '</td>' +
                             '<td>' + result.Address1 + '</td>' +
                             '<td>' + result.City + '</td>' +
                             '<td>' + result.State + '</td>' +
                             '<td>' + result.Zip + '</td>' +
-                            '<td><form action="/Vendor/Delete" method="post"><a href="/Vendor/Edit/' + result.Id + '">Edit</a> | ' +
-                            '<input type="hidden" name="id" value="' + result.Id + '">' +
-                            '<a class="deleteVendorLink" href="#">Delete</a>' +
+                            '<td><a class="deleteVendorLink" href="#">Delete</a>' +
                             '</form></td>');
 
                         $(this).dialog("close");
@@ -157,7 +150,7 @@
     // NOTE this intentionally binds to items that already exist on the page and won't work on new items
     // This will give another place to talk about how managing events is tricky
     $('.deleteVendorLink').on('click', function () {
-        var vendorId = $(this).parents('tr').find('.partId').val();
+        var vendorId = $(this).parents('tr').data('vendorid');
 
         $("#dialog-confirm").dialog({
             resizable: false,
@@ -173,7 +166,7 @@
                         context: this,
                         title: "Delete This?"
                     }).done(function() {
-                        $('#vendorsList').find('tr[data-partId="' + vendorId + '"]').remove();
+                        $('#vendorsList').find('tr[data-vendorid="' + vendorId + '"]').remove();
                     });
                 },
                 Cancel: function () {
