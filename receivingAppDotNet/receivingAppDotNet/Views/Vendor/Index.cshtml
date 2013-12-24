@@ -69,7 +69,18 @@
     </div>
 </div>
 
+<a href="#" onclick="thisTestMethod();">OnClick Test</a>
+<a href="#" id="boundEventThisTestLink">Bound Event Test</a>
+
 <script>
+    
+    // a method to demonstrate how this works
+    window.thisTestMethod = function() {
+        debugger;
+    };
+    // code to bind the event test
+    $('#boundEventThisTestLink').on('click', thisTestMethod);
+
     // javascript called via an event
     $('.deleteVendorLink').on('click', function () {
         // demo - show them what 'this' means here
