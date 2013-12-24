@@ -13,20 +13,18 @@ namespace receivingAppDotNet.Controllers
         // GET: /Vendor/
         public ActionResult Index()
         {
-            return View(VendorDataService.Vendors.OrderBy(x => x.Name));
+            return View();
         }
 
-        //
-        // GET: /Vendor/Create
-        public ActionResult Create()
+        public JsonResult CurrentVendors()
         {
-            return View();
+            return Json(VendorDataService.Vendors.OrderBy(x => x.Name), JsonRequestBehavior.AllowGet);
         }
 
         //
         // POST: /Vendor/Create
         [HttpPost]
-        public ActionResult Create(Vendor vendor)
+        public JsonResult Create(Vendor vendor)
         {
             try
             {
@@ -44,18 +42,9 @@ namespace receivingAppDotNet.Controllers
         }
 
         //
-        // GET: /Vendor/Delete/5
-        public ActionResult Delete(int id)
-        {
-            var model = VendorDataService.Vendors.Find(x => x.Id == id);
-
-            return View(model);
-        }
-
-        //
         // POST: /Vendor/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public JsonResult Delete(int id, FormCollection collection)
         {
             try
             {

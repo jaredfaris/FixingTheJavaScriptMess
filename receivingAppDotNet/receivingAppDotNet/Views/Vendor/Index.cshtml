@@ -10,52 +10,8 @@
 <p>
     <a href="#" id="createNewVendor">Create New</a>
 </p>
-<table class="table" id="vendorsList">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.State)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Zip)
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr data-vendorid="@item.Id">
-            <input type="hidden" name="id" value="@item.Id" />
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.State)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Zip)
-            </td>
-            <td>
-                <a class="deleteVendorLink" href="#">Delete</a>
-            </td>
-        </tr>
-    }
-
-</table>
+<div id="currentVendors"></div>
 
 <div style="display: none;">
     <div id="dialog-confirm" title="Delete this item?">
@@ -124,7 +80,7 @@
                     }).done(function (result) {
                         // Look at all this lovely markup
                         $('#vendorsList tbody').append('' +
-                            '<tr><input type="hidden" name="id" value="' + result.Id + '">' + 
+                            '<tr data-vendorid="' + result.Id + '"><input type="hidden" name="id" value="' + result.Id + '">' + 
                             '<td>' + result.Name + '</td>' +
                             '<td>' + result.Address1 + '</td>' +
                             '<td>' + result.City + '</td>' +
@@ -146,10 +102,33 @@
         });
     });
 
+    // load the current vendors at page load
+    $.ajax({
+        url: '/Vendor/CurrentVendors',
+        type: 'GET',
+        context: this
+    }).done(function(result) {
+        var markup = '<table class="table" id="vendorsList"><tr><th>Name</th><th>Address 1</th><th>City</th><th>State</th><th>Zip</th><th></th></tr>';
+
+        _.each(result, function(item) {
+            markup += '<tr data-vendorid="' + item.Id + '">' +
+                '<input type="hidden" name="id" value="' + item.Id + '" />' +
+                '<td>' + item.Name + '</td>' +
+                '<td>' + item.Address1 + '</td>' +
+                '<td>' + item.City + '</td>' +
+                '<td>' + item.State + '</td>' +
+                '<td>' + item.Zip + '</td>' +
+                '<td><a class="deleteVendorLink" href="#">Delete</a></td>' +
+                '</tr>';
+        });
+
+        markup += "</table>";
+
+        $('#currentVendors').html(markup);
+    });
+
     // javascript called via an event
-    // NOTE this intentionally binds to items that already exist on the page and won't work on new items
-    // This will give another place to talk about how managing events is tricky
-    $('.deleteVendorLink').on('click', function () {
+    $('#currentVendors').on('click', '.deleteVendorLink', function () {
         var vendorId = $(this).parents('tr').data('vendorid');
 
         $("#dialog-confirm").dialog({

@@ -11,7 +11,7 @@ namespace receivingAppDotNet.Controllers
         // GET: /Part/
         public ActionResult Index()
         {
-            return View(PartDataService.Parts.Where(x => !x.Discontinued).OrderBy(x => x.Name));
+            return View();
         }
 
         public JsonResult DiscontinuedParts()
@@ -19,17 +19,15 @@ namespace receivingAppDotNet.Controllers
             return Json(PartDataService.Parts.Where(x => x.Discontinued).OrderBy(x => x.Name), JsonRequestBehavior.AllowGet);
         }
 
-        //
-        // GET: /Part/Create
-        public ActionResult Create()
+        public JsonResult CurrentParts()
         {
-            return View();
+            return Json(PartDataService.Parts.Where(x => !x.Discontinued).OrderBy(x => x.Name), JsonRequestBehavior.AllowGet);
         }
 
         //
         // POST: /Part/Create
         [HttpPost]
-        public ActionResult Create(Part part)
+        public JsonResult Create(Part part)
         {
             try
             {
@@ -47,18 +45,9 @@ namespace receivingAppDotNet.Controllers
         }
 
         //
-        // GET: /Part/Delete/5
-        public ActionResult Delete(int id)
-        {
-            PartDataService.Parts.Find(x => x.Id == id);
-
-            return null;
-        }
-
-        //
         // POST: /Part/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public JsonResult Delete(int id, FormCollection collection)
         {
             try
             {
