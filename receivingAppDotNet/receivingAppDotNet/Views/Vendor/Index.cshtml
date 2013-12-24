@@ -8,7 +8,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a href="#" id="createNewVendor">Create New</a>
 </p>
 <table class="table">
     <tr>
@@ -54,7 +54,7 @@
 
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                     @:|
-                    <input type="hidden" name="id" value="@item.Id"/>
+                    <input type="hidden" name="id" value="@item.Id" />
                     <a class="deleteVendorLink" href="#">Delete</a>
                 }
             </td>
@@ -69,7 +69,74 @@
     </div>
 </div>
 
+<div class="hidden">
+    <form action="/Vendor/Create" method="post" id="createNewVendorForm">
+        <div class="form-horizontal">
+            <h4>Vendor</h4>
+            <hr>
+
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="Name">Name</label>
+                <div class="col-md-10">
+                    <input class="text-box single-line" id="Name" name="Name" type="text" value="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="Address1">Address1</label>
+                <div class="col-md-10">
+                    <input class="text-box single-line" id="Address1" name="Address1" type="text" value="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="City">City</label>
+                <div class="col-md-10">
+                    <input class="text-box single-line" id="City" name="City" type="text" value="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="State">State</label>
+                <div class="col-md-10">
+                    <input class="text-box single-line" id="State" name="State" type="text" value="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="Zip">Zip</label>
+                <div class="col-md-10">
+                    <input class="text-box single-line" id="Zip" name="Zip" type="text" value="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
 <script>
+    $('#createNewVendor').on('click', function() {
+        $('#createNewVendorForm').dialog({
+            resizable: false,
+            modal: true,
+            buttons: {
+                "Delete this item": function() {
+                    $(this).dialog("close");
+                    form.submit();
+                },
+                Cancel: function() {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    });
+
     // javascript called via an event
     $('.deleteVendorLink').on('click', function () {
         // demo - show them what 'this' means here
