@@ -68,7 +68,7 @@
             <div id="currentParts"></div>
 
             <p>
-                <a id="toggleDiscontinuedParts" href="#" onclick="toggleDiscontinuedParts()">Show Discontinued Parts</a>
+                <a id="toggleDiscontinuedParts" href="#">Show Discontinued Parts</a>
             </p>
 
             <div id="discontinuedParts"></div>
@@ -102,41 +102,8 @@
 </div>
 
 <script>
-
-
-    window.toggleDiscontinuedParts = function () {
-        var isShowing = $('#toggleDiscontinuedParts').hasClass('expanded');
-
-        if (!isShowing) {
-            // show the parts
-            $('#toggleDiscontinuedParts').text('Hide Discontinued Parts').addClass('expanded');
-
-            $.ajax({
-                url: '/Part/DiscontinuedParts',
-                type: 'GET',
-                context: this,
-                dataType: "json"
-            }).done(function (result) {
-                        var markup = '<table class="table"><tr><th>Name</th><th>Weight</th><th></th></tr>';
-
-                        _.each(result, function (item) {
-                            markup += "<tr><td>" + item.Name + "</td><td>" + item.Weight + "</td><td></td></tr>";
-                        });
-
-                        markup += "</table>";
-
-                        $('#discontinuedParts').html(markup);
-                    });
-        } else {
-            // hide the parts
-            $('#toggleDiscontinuedParts').text('Show Discontinued Parts').removeClass('expanded');
-            $('#discontinuedParts').html('');
-        }
-    };
-
     var partObject = new receivingApp.part();
-    partObject.initializeDeleteLink();
-
+    partObject.initialize();
 </script>
 </div>
 
