@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parts - My Fake Application</title>
+    <link href="./Content/bootstrap.css" rel="stylesheet">
+	<link href="./Content/offcanvas.css" rel="stylesheet">
+	<link href="./Content/site.css" rel="stylesheet">
+
+		<link href="./Content/themes/base/jquery.ui.core.css" rel="stylesheet">
+	<link href="./Content/themes/base/jquery.ui.resizable.css" rel="stylesheet">
+	<link href="./Content/themes/base/jquery.ui.selectable.css" rel="stylesheet">
+	<link href="./Content/themes/base/jquery.ui.accordion.css" rel="stylesheet">
+	<link href="./Content/themes/base/jquery.ui.autocomplete.css" rel="stylesheet">
+	<link href="./Content/themes/base/jquery.ui.button.css" rel="stylesheet">
+	<link href="./Content/themes/base/jquery.ui.dialog.css" rel="stylesheet">
+	<link href="./Content/themes/base/jquery.ui.slider.css" rel="stylesheet">
+	<link href="./Content/themes/base/jquery.ui.tabs.css" rel="stylesheet">
+	<link href="./Content/themes/base/jquery.ui.datepicker.css" rel="stylesheet">
+	<link href="./Content/themes/base/jquery.ui.progressbar.css" rel="stylesheet">
+	<link href="./Content/themes/base/jquery.ui.theme.css" rel="stylesheet">
+
+    <script src="./Scripts/modernizr-2.6.2.js"></script>
+
+    <script src="./Scripts/jquery-1.10.2.js"></script>
+	<script src="./Scripts/jquery-ui-1.10.3.js"></script>
+
+    <script src="./Scripts/bootstrap.js"></script>
+	<script src="./Scripts/offcanvas.js"></script>
+	<script src="./Scripts/respond.js"></script>
+
+    <script src="./Scripts/underscore-min.js"></script>
+</head>
+    <body style="">
+        <div class="container">
+            <div class="page-header">
+                <h1>AcmeCo Receiving</h1>
+                <p class="lead">We get stuff.</p>
+            </div>
+            
+            <div class="row row-offcanvas row-offcanvas-right">
+
+                <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+                    <div class="list-group">
+
+                        <a href="./Vendor.html" class="list-group-item ">Vendors</a>
+
+                        <a href="./Part.html" class="list-group-item active">Parts</a>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-9">
+                    
+
+
+<h2>Index</h2>
+
+<p>
+    <a href="#" id="createNewPart">Create New</a>
+</p>
+
+<div id="currentParts"></div>
+
+<p>
+    <a id="toggleDiscontinuedParts" href="#" onclick="toggleDiscontinuedParts()">Show Discontinued Parts</a>
+</p>
+
+<div id="discontinuedParts"></div>
+
+<div style="display: none;">
+    <div id="dialog-confirm" title="Delete this item?">
+        <p>Delete this item?</p>
+    </div>    
+</div>
+
+<div class="hidden">
+    <form id="createNewPartForm">
+        <div class="form-horizontal" id="createNewFormContainer">
+            <hr>
+
+            <div class="form-group">
+                <label class="control-label col-md-4" for="Name">Name</label>
+                <div class="col-md-5">
+                    <input class="text-box single-line" id="Name" name="Name" type="text" value="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4" for="Weight">Weight</label>
+                <div class="col-md-5">
+                    <input class="text-box single-line" id="Weight" name="Weight" type="text" value="">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $('#createNewPart').on('click', function() {
+        $('#createNewPartForm').dialog({
+            resizable: false,
+            width: 500,
+            modal: true,
+            title: "New Part",
+            buttons: {
+                "Create": function () {
+                    var data = $('#createNewPartForm').serialize();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Part/Create',
+                        data: data,
+                        context: this
+                    }).done(function (result) {
+                        // Look at all this lovely markup
+                        $('#partsList tbody').append('' +
+                            '<tr data-partid="' + result.Id + '"><input type="hidden" name="id" value="' + result.Id + '">' +
+                            '<td>' + result.Name + '</td>' +
+                            '<td>' + result.Weight + '</td>' +
+                            '<td><a class="deletePartLink" href="#">Delete</a>' +
+                            '</form></td>');
+
+                        $(this).dialog("close");
+                        $(this).find('input').val('');
+                    });
+
+                },
+                Cancel: function() {
+                    $(this).dialog("close");
+                    $(this).first('input').val('');
+                }
+            }
+        });
+    });
+
+    // load the current parts at page load
+    $.ajax({
+        url: '/Part/CurrentParts',
+        type: 'GET',
+        context: this
+    }).done(function (result) {
+        var markup = '<table class="table" id="partsList"><tr><th>Name</th><th>Weight</th><th></th></tr>';
+
+        _.each(result, function (item) {
+            markup += "<tr data-partid=\"" + item.Id + "\">" +
+                "<input type=\"hidden\" class=\"partId\" value=\"" + item.Id + "\"/>" +
+                "<td>" + item.Name + "</td>" +
+                "<td>" + item.Weight + "</td>" +
+                "<td><a class=\"deletePartLink\" href=\"#\">Delete</a></td></tr>";
+        });
+
+        markup += "</table>";
+
+        $('#currentParts').html(markup);
+    });
+
+    window.toggleDiscontinuedParts = function() {
+        var isShowing = $('#toggleDiscontinuedParts').hasClass('expanded');
+
+        if (!isShowing) {
+            // show the parts
+            $('#toggleDiscontinuedParts').text('Hide Discontinued Parts').addClass('expanded');
+
+            $.ajax({
+                url: '/Part/DiscontinuedParts',
+                type: 'GET',
+                context: this
+            }).done(function (result) {
+                var markup = '<table class="table"><tr><th>Name</th><th>Weight</th><th></th></tr>';
+
+                _.each(result, function(item) {
+                    markup += "<tr><td>" + item.Name + "</td><td>" + item.Weight + "</td><td></td></tr>";
+                });
+
+                markup += "</table>";
+
+                $('#discontinuedParts').html(markup);
+            });
+        } else {
+            // hide the parts
+            $('#toggleDiscontinuedParts').text('Show Discontinued Parts').removeClass('expanded');
+            $('#discontinuedParts').html('');
+        }
+    };
+
+    // javascript called via an event
+    $('#currentParts').on('click', '.deletePartLink', function () {
+        var partId = $(this).parents('tr').data('partid');
+
+        $("#dialog-confirm").dialog({
+            resizable: false,
+            height: 200,
+            modal: true,
+            buttons: {
+                "Delete this item?": function () {
+                    $(this).dialog("close");
+                    $.ajax({
+                        type: "POST",
+                        url: "/Part/Delete",
+                        data: { Id: partId },
+                        context: this,
+                        title: "Delete This?"
+                    }).done(function () {
+                        $('#partsList').find('tr[data-partid="' + partId + '"]').remove();
+                    });
+                },
+                Cancel: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        return false;
+    });
+</script>
+                </div>
+
+            </div>
+        </div>        
+
+</body></html>
