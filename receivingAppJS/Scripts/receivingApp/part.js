@@ -23,7 +23,40 @@ window.receivingApp.part = function () {
     // initializes the create new link to open a popup window
     var initializeCreateNewLink = function () {
         $('#createNewPart').on('click', function () {
+            $('#createNewPartForm').dialog({
+                resizable: false,
+                width: 500,
+                modal: true,
+                title: "New Part",
+                buttons: {
+                    "Create": function () {
+                        var data = $('#createNewPartForm').serialize();
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Part/Create',
+                            data: data,
+                            context: this,
+                            dataType: "json"
+                        }).done(function (result) {
+                                // Look at all this lovely markup
+                                $('#partsList tbody').append('' +
+                                    '<tr data-partid="' + result.Id + '"><input type="hidden" name="id" value="' + result.Id + '">' +
+                                    '<td>' + result.Name + '</td>' +
+                                    '<td>' + result.Weight + '</td>' +
+                                    '<td><a class="deletePartLink" href="#">Delete</a>' +
+                                    '</form></td>');
 
+                                $(this).dialog("close");
+                                $(this).find('input').val('');
+                            });
+
+                    },
+                    Cancel: function () {
+                        $(this).dialog("close");
+                        $(this).first('input').val('');
+                    }
+                }
+            });
         });
     };
 
