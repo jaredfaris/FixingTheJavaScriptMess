@@ -49,7 +49,8 @@
         var result = {};
         dataString.split('&').forEach(function(item) {
             pair = item.split('=');
-            result[pair[0]] = decodeURIComponent(pair[1] || '');
+            // little bit of a hack to take care of +s in our fake post bodies
+            result[pair[0]] = decodeURIComponent(pair[1] || '').replace(/\+/g, ' ');
         })
 
         return result;
