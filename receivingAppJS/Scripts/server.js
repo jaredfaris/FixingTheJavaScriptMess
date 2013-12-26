@@ -21,9 +21,29 @@
         });
     });
 
-    var getIdFromUrl = function(url) {
-        return url.split('/').pop();
-    }
+    // vendors
+    var vendors = [];
+    [
+        "Acme",
+        "Bob's Hardware",
+        "CogCo",
+        "DisIsAFakeName",
+        "Emeryville Supply",
+        "Fakestown Indisutrial",
+        "Great Company LTD",
+        "Having trouble coming up with more fake names INC",
+        "IM Nearly Out of Ideas Co",
+        "My Fake Company"
+    ].forEach(function(item, index) {
+        vendors.push({
+            Id: index,
+            Address1: "1" + index + index + " Main Street",
+            City: "Sprintfield",
+            State: "IL",
+            Name: item,
+            Zip: "" + (index) + (index) + index + index + index
+        })
+    });
 
     var dataToObject = function(dataString) {
         var result = {};
@@ -73,5 +93,33 @@
             parts.push(newPart);
             this.responseText = newPart;
         }
-    })
+    });
+
+    $.mockjax({
+        url: '/Vendor/CurrentVendors',
+        response: function(settings) {
+            this.responseText = vendors;
+        }
+    });
+
+    $.mockjax({
+        url: '/Vendor/Delete',
+        response: function(settings) {
+            var id = settings.data.Id;
+            vendors = _.reject(vendors, function(item) {
+                return item.id == id;
+            });
+        }
+    });
+
+    $.mockjax({
+        url: '/Vendor/Create',
+        response: function(settings) {
+            var newVendor = dataToObject(settings.data);
+            var maxId = _.max(vendors, function(vendor) { return vendor.Id });
+            newVendor.Id = maxId + 1;
+            vendors.push(newVendor);
+            this.responseText = newVendor;
+        }
+    });
 })($);

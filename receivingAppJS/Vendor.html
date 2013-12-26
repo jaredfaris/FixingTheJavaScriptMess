@@ -3,34 +3,34 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Vendors - My Fake Application</title>
-    <link href="./Content/bootstrap.css" rel="stylesheet">
-	<link href="./Content/offcanvas.css" rel="stylesheet">
-	<link href="./Content/site.css" rel="stylesheet">
 
-		<link href="./Content/themes/base/jquery.ui.core.css" rel="stylesheet">
-	<link href="./Content/themes/base/jquery.ui.resizable.css" rel="stylesheet">
-	<link href="./Content/themes/base/jquery.ui.selectable.css" rel="stylesheet">
-	<link href="./Content/themes/base/jquery.ui.accordion.css" rel="stylesheet">
-	<link href="./Content/themes/base/jquery.ui.autocomplete.css" rel="stylesheet">
-	<link href="./Content/themes/base/jquery.ui.button.css" rel="stylesheet">
-	<link href="./Content/themes/base/jquery.ui.dialog.css" rel="stylesheet">
-	<link href="./Content/themes/base/jquery.ui.slider.css" rel="stylesheet">
-	<link href="./Content/themes/base/jquery.ui.tabs.css" rel="stylesheet">
-	<link href="./Content/themes/base/jquery.ui.datepicker.css" rel="stylesheet">
-	<link href="./Content/themes/base/jquery.ui.progressbar.css" rel="stylesheet">
-	<link href="./Content/themes/base/jquery.ui.theme.css" rel="stylesheet">
+    <link href="Content/bootstrap.css" rel="stylesheet">
+    <link href="Content/offcanvas.css" rel="stylesheet">
+    <link href="Content/site.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.core.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.resizable.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.selectable.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.accordion.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.autocomplete.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.button.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.dialog.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.slider.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.tabs.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.datepicker.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.progressbar.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.theme.css" rel="stylesheet">
 
-    <script src="./Scripts/modernizr-2.6.2.js"></script>
-
-    <script src="./Scripts/jquery-1.10.2.js"></script>
-	<script src="./Scripts/jquery-ui-1.10.3.js"></script>
-
-    <script src="./Scripts/bootstrap.js"></script>
-	<script src="./Scripts/offcanvas.js"></script>
-	<script src="./Scripts/respond.js"></script>
-
-    <script src="./Scripts/underscore-min.js"></script>
+    <script type="text/javascript" src="Scripts/modernizr-2.6.2.js"></script>
+    <script type="text/javascript" src="Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="Scripts/jquery-ui-1.10.3.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.mockjax.js"></script>
+    <script type="text/javascript" src="Scripts/bootstrap.js"></script>
+    <script type="text/javascript" src="Scripts/offcanvas.js"></script>
+    <script type="text/javascript" src="Scripts/respond.js"></script>
+    <script type="text/javascript" src="Scripts/underscore-min.js"></script>
+    <script type="text/javascript" src="Scripts/server.js"></script>
 </head>
     <body style="">
         <div class="container">
@@ -126,7 +126,8 @@
                         url: '/Vendor/Create',
                         data: data,
                         context: this,
-                        title: "New Vendor"
+                        title: "New Vendor",
+                        dataType: "json"
                     }).done(function (result) {
                         // Look at all this lovely markup
                         $('#vendorsList tbody').append('' +
@@ -156,7 +157,8 @@
     $.ajax({
         url: '/Vendor/CurrentVendors',
         type: 'GET',
-        context: this
+        context: this,
+        dataType: "json"
     }).done(function(result) {
         var markup = '<table class="table" id="vendorsList"><tr><th>Name</th><th>Address 1</th><th>City</th><th>State</th><th>Zip</th><th></th></tr>';
 
