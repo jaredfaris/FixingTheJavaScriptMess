@@ -7,100 +7,100 @@
     <title>Parts - My Fake Application</title>
 
     <link href="Content/bootstrap.css" rel="stylesheet">
-	<link href="Content/offcanvas.css" rel="stylesheet">
-	<link href="Content/site.css" rel="stylesheet">
+    <link href="Content/offcanvas.css" rel="stylesheet">
+    <link href="Content/site.css" rel="stylesheet">
     <link href="Content/themes/base/jquery.ui.core.css" rel="stylesheet">
-	<link href="Content/themes/base/jquery.ui.resizable.css" rel="stylesheet">
-	<link href="Content/themes/base/jquery.ui.selectable.css" rel="stylesheet">
-	<link href="Content/themes/base/jquery.ui.accordion.css" rel="stylesheet">
-	<link href="Content/themes/base/jquery.ui.autocomplete.css" rel="stylesheet">
-	<link href="Content/themes/base/jquery.ui.button.css" rel="stylesheet">
-	<link href="Content/themes/base/jquery.ui.dialog.css" rel="stylesheet">
-	<link href="Content/themes/base/jquery.ui.slider.css" rel="stylesheet">
-	<link href="Content/themes/base/jquery.ui.tabs.css" rel="stylesheet">
-	<link href="Content/themes/base/jquery.ui.datepicker.css" rel="stylesheet">
-	<link href="Content/themes/base/jquery.ui.progressbar.css" rel="stylesheet">
-	<link href="Content/themes/base/jquery.ui.theme.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.resizable.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.selectable.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.accordion.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.autocomplete.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.button.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.dialog.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.slider.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.tabs.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.datepicker.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.progressbar.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.theme.css" rel="stylesheet">
 
     <script type="text/javascript" src="Scripts/modernizr-2.6.2.js"></script>
     <script type="text/javascript" src="Scripts/jquery-1.10.2.js"></script>
-	<script type="text/javascript" src="Scripts/jquery-ui-1.10.3.js"></script>
+    <script type="text/javascript" src="Scripts/jquery-ui-1.10.3.js"></script>
     <script type="text/javascript" src="Scripts/jquery.mockjax.js"></script>
     <script type="text/javascript" src="Scripts/bootstrap.js"></script>
-	<script type="text/javascript" src="Scripts/offcanvas.js"></script>
-	<script type="text/javascript" src="Scripts/respond.js"></script>
+    <script type="text/javascript" src="Scripts/offcanvas.js"></script>
+    <script type="text/javascript" src="Scripts/respond.js"></script>
     <script type="text/javascript" src="Scripts/underscore-min.js"></script>
     <script type="text/javascript" src="Scripts/server.js"></script>
 
 
     <script src="./Scripts/namespace.js"></script>
 </head>
-    <body style="">
-        <div class="container">
-            <div class="page-header">
-                <h1>AcmeCo Receiving</h1>
-                <p class="lead">We get stuff.</p>
-            </div>
-            
-            <div class="row row-offcanvas row-offcanvas-right">
+<body style="">
+<div class="container">
+    <div class="page-header">
+        <h1>AcmeCo Receiving</h1>
 
-                <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
-                    <div class="list-group">
+        <p class="lead">We get stuff.</p>
+    </div>
 
-                        <a href="./Vendor.html" class="list-group-item ">Vendors</a>
+    <div class="row row-offcanvas row-offcanvas-right">
 
-                        <a href="./Part.html" class="list-group-item active">Parts</a>
-                    </div>
-                </div>
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+            <div class="list-group">
 
-                <div class="col-xs-12 col-sm-9">
-                    
+                <a href="./Vendor.html" class="list-group-item ">Vendors</a>
 
-
-<h2>Index</h2>
-
-<p>
-    <a href="#" id="createNewPart">Create New</a>
-</p>
-
-<div id="currentParts"></div>
-
-<p>
-    <a id="toggleDiscontinuedParts" href="#" onclick="toggleDiscontinuedParts()">Show Discontinued Parts</a>
-</p>
-
-<div id="discontinuedParts"></div>
-
-<div style="display: none;">
-    <div id="dialog-confirm" title="Delete this item?">
-        <p>Delete this item?</p>
-    </div>    
-</div>
-
-<div class="hidden">
-    <form id="createNewPartForm">
-        <div class="form-horizontal" id="createNewFormContainer">
-            <hr>
-
-            <div class="form-group">
-                <label class="control-label col-md-4" for="Name">Name</label>
-                <div class="col-md-5">
-                    <input class="text-box single-line" id="Name" name="Name" type="text" value="">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-md-4" for="Weight">Weight</label>
-                <div class="col-md-5">
-                    <input class="text-box single-line" id="Weight" name="Weight" type="text" value="">
-                </div>
+                <a href="./Part.html" class="list-group-item active">Parts</a>
             </div>
         </div>
-    </form>
+
+        <div class="col-xs-12 col-sm-9">
+
+
+            <h2>Index</h2>
+
+            <p>
+                <a href="#" id="createNewPart">Create New</a>
+            </p>
+
+            <div id="currentParts"></div>
+
+            <p>
+                <a id="toggleDiscontinuedParts" href="#" onclick="toggleDiscontinuedParts()">Show Discontinued Parts</a>
+            </p>
+
+            <div id="discontinuedParts"></div>
+
+
+            <div class="hidden">
+                <form id="createNewPartForm">
+                    <div class="form-horizontal" id="createNewFormContainer">
+                        <hr>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="Name">Name</label>
+
+                            <div class="col-md-5">
+                                <input class="text-box single-line" id="Name" name="Name" type="text" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="Weight">Weight</label>
+
+                            <div class="col-md-5">
+                                <input class="text-box single-line" id="Weight" name="Weight" type="text" value="">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-    $('#createNewPart').on('click', function() {
+    $('#createNewPart').on('click', function () {
         $('#createNewPartForm').dialog({
             resizable: false,
             width: 500,
@@ -116,20 +116,20 @@
                         context: this,
                         dataType: "json"
                     }).done(function (result) {
-                        // Look at all this lovely markup
-                        $('#partsList tbody').append('' +
-                            '<tr data-partid="' + result.Id + '"><input type="hidden" name="id" value="' + result.Id + '">' +
-                            '<td>' + result.Name + '</td>' +
-                            '<td>' + result.Weight + '</td>' +
-                            '<td><a class="deletePartLink" href="#">Delete</a>' +
-                            '</form></td>');
+                                // Look at all this lovely markup
+                                $('#partsList tbody').append('' +
+                                        '<tr data-partid="' + result.Id + '"><input type="hidden" name="id" value="' + result.Id + '">' +
+                                        '<td>' + result.Name + '</td>' +
+                                        '<td>' + result.Weight + '</td>' +
+                                        '<td><a class="deletePartLink" href="#">Delete</a>' +
+                                        '</form></td>');
 
-                        $(this).dialog("close");
-                        $(this).find('input').val('');
-                    });
+                                $(this).dialog("close");
+                                $(this).find('input').val('');
+                            });
 
                 },
-                Cancel: function() {
+                Cancel: function () {
                     $(this).dialog("close");
                     $(this).first('input').val('');
                 }
@@ -144,22 +144,22 @@
         context: this,
         dataType: "json"
     }).done(function (result) {
-        var markup = '<table class="table" id="partsList"><tr><th>Name</th><th>Weight</th><th></th></tr>';
+                var markup = '<table class="table" id="partsList"><tr><th>Name</th><th>Weight</th><th></th></tr>';
 
-        _.each(result, function (item) {
-            markup += "<tr data-partid=\"" + item.Id + "\">" +
-                "<input type=\"hidden\" class=\"partId\" value=\"" + item.Id + "\"/>" +
-                "<td>" + item.Name + "</td>" +
-                "<td>" + item.Weight + "</td>" +
-                "<td><a class=\"deletePartLink\" href=\"#\">Delete</a></td></tr>";
-        });
+                _.each(result, function (item) {
+                    markup += "<tr data-partid=\"" + item.Id + "\">" +
+                            "<input type=\"hidden\" class=\"partId\" value=\"" + item.Id + "\"/>" +
+                            "<td>" + item.Name + "</td>" +
+                            "<td>" + item.Weight + "</td>" +
+                            "<td><a class=\"deletePartLink\" href=\"#\">Delete</a></td></tr>";
+                });
 
-        markup += "</table>";
+                markup += "</table>";
 
-        $('#currentParts').html(markup);
-    });
+                $('#currentParts').html(markup);
+            });
 
-    window.toggleDiscontinuedParts = function() {
+    window.toggleDiscontinuedParts = function () {
         var isShowing = $('#toggleDiscontinuedParts').hasClass('expanded');
 
         if (!isShowing) {
@@ -172,16 +172,16 @@
                 context: this,
                 dataType: "json"
             }).done(function (result) {
-                var markup = '<table class="table"><tr><th>Name</th><th>Weight</th><th></th></tr>';
+                        var markup = '<table class="table"><tr><th>Name</th><th>Weight</th><th></th></tr>';
 
-                _.each(result, function(item) {
-                    markup += "<tr><td>" + item.Name + "</td><td>" + item.Weight + "</td><td></td></tr>";
-                });
+                        _.each(result, function (item) {
+                            markup += "<tr><td>" + item.Name + "</td><td>" + item.Weight + "</td><td></td></tr>";
+                        });
 
-                markup += "</table>";
+                        markup += "</table>";
 
-                $('#discontinuedParts').html(markup);
-            });
+                        $('#discontinuedParts').html(markup);
+                    });
         } else {
             // hide the parts
             $('#toggleDiscontinuedParts').text('Show Discontinued Parts').removeClass('expanded');
@@ -190,38 +190,28 @@
     };
 
     // javascript called via an event
-    $('#currentParts').on('click', '.deletePartLink', function () {
+    $('#currentParts').on('click', '.deletePartLink', function (event) {
+        event.preventDefault();
+
         var partId = $(this).parents('tr').data('partid');
 
-        $("#dialog-confirm").dialog({
-            resizable: false,
-            height: 200,
-            modal: true,
-            buttons: {
-                "Delete this item?": function () {
-                    $(this).dialog("close");
-                    $.ajax({
-                        type: "POST",
-                        url: "/Part/Delete",
-                        data: { Id: partId },
-                        context: this,
-                        title: "Delete This?"
-                    }).done(function () {
+        var deleteFunction = function () {
+            $.ajax({
+                type: "POST",
+                url: "/Part/Delete",
+                data: { Id: partId },
+                context: this,
+            }).done(function () {
                         $('#partsList').find('tr[data-partid="' + partId + '"]').remove();
                     });
-                },
-                Cancel: function () {
-                    $(this).dialog("close");
-                }
-            }
-        });
-
-        return false;
+        }
+        window.receivingApp.utility.deletePopup.open("Delete this vendor?", deleteFunction);
     });
 </script>
-                </div>
+</div>
 
-            </div>
-        </div>        
+</div>
+</div>
 
-</body></html>
+</body>
+</html>
