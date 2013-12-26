@@ -25,28 +25,6 @@ window.receivingApp.part = function () {
         $('#createNewPart').on('click', function () {
 
         });
-
-        // load the current parts at page load
-        $.ajax({
-            url: '/Part/CurrentParts',
-            type: 'GET',
-            context: this,
-            dataType: "json"
-        }).done(function (result) {
-                var markup = '<table class="table" id="partsList"><tr><th>Name</th><th>Weight</th><th></th></tr>';
-
-                _.each(result, function (item) {
-                    markup += "<tr data-partid=\"" + item.Id + "\">" +
-                        "<input type=\"hidden\" class=\"partId\" value=\"" + item.Id + "\"/>" +
-                        "<td>" + item.Name + "</td>" +
-                        "<td>" + item.Weight + "</td>" +
-                        "<td><a class=\"deletePartLink\" href=\"#\">Delete</a></td></tr>";
-                });
-
-                markup += "</table>";
-
-                $('#currentParts').html(markup);
-            });
     };
 
     // wires up the Hide/Show Discontinued Parts link
