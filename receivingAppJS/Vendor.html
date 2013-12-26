@@ -183,24 +183,10 @@
         $('#currentVendors').html(markup);
     });
 
-    // javascript called via an event
-    $('#currentVendors').on('click', '.deleteVendorLink', function (event) {
-        event.preventDefault();
 
-        var vendorId = $(this).parents('tr').data('vendorid');
+    var vendorObject = new receivingApp.vendor();
+    vendorObject.initializeDeleteLink();
 
-        var deleteFunction = function () {
-            $.ajax({
-                type: "POST",
-                url: "/Vendor/Delete",
-                data: { Id: vendorId },
-                context: this,
-            }).done(function () {
-                        $('#vendorsList').find('tr[data-vendorid="' + vendorId + '"]').remove();
-                    });
-        };
-        window.receivingApp.utility.deletePopup.open("Delete this vendor?", deleteFunction);
-    });
 </script>
 
 </body>
