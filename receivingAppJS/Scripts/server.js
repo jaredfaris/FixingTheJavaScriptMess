@@ -77,9 +77,12 @@
         url: '/Part/Delete',
         response: function(settings) {
             var id = settings.data.Id;
-            parts = _.reject(parts, function(item) {
-                return item.id == id;
+
+            var partToDelete = _.find(parts, function(item) {
+                return item.Id == id;
             });
+
+            partToDelete.Discontinued = true;
         }
     });
 
@@ -107,7 +110,7 @@
         response: function(settings) {
             var id = settings.data.Id;
             vendors = _.reject(vendors, function(item) {
-                return item.id == id;
+                return item.Id == id;
             });
         }
     });
