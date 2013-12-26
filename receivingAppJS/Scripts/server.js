@@ -25,6 +25,16 @@
         return url.split('/').pop();
     }
 
+    var dataToObject = function(dataString) {
+        var result = {};
+        dataString.split('&').forEach(function(item) {
+            pair = item.split('=');
+            result[pair[0]] = decodeURIComponent(pair[1] || '');
+        })
+
+        return result;
+    }
+
     $.mockjax({
         url: '/Part/DiscontinuedParts',
         response: function(settings) {
@@ -52,4 +62,16 @@
             });
         }
     });
+
+    $.mockjax({
+        url: '/Part/Create',
+        response: function(settings) {
+            var newPart = dataToObject(settings.data);
+            var maxId = _.max(parts, function(part) { return part.Id });
+            newPart.Id = maxId + 1;
+            newPart.Discontinued = false;
+            parts.push(newPart);
+            this.responseText = newPart;
+        }
+    })
 })($);

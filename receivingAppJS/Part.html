@@ -202,8 +202,7 @@
                         url: "/Part/Delete",
                         data: { Id: partId },
                         context: this,
-                        title: "Delete This?",
-                        dataType: "json"
+                        title: "Delete This?"
                     }).done(function () {
                         $('#partsList').find('tr[data-partid="' + partId + '"]').remove();
                     });
