@@ -31,6 +31,8 @@
 	<script src="./Scripts/respond.js"></script>
 
     <script src="./Scripts/underscore-min.js"></script>
+
+    <script src="./Scripts/namespace.js"></script>
 </head>
     <body style="">
         <div class="container">
@@ -181,28 +183,18 @@
     $('#currentVendors').on('click', '.deleteVendorLink', function () {
         var vendorId = $(this).parents('tr').data('vendorid');
 
-        $("#dialog-confirm").dialog({
-            resizable: false,
-            height: 200,
-            modal: true,
-            buttons: {
-                "Delete this item": function () {
-                    $(this).dialog("close");
-                    $.ajax({
+        var deleteFunction = function() {
+            $.ajax({
                         type: "POST",
                         url: "/Vendor/Delete",
                         data: { Id: vendorId },
-                        context: this,
-                        title: "Delete This?"
+                        context: this
                     }).done(function() {
                         $('#vendorsList').find('tr[data-vendorid="' + vendorId + '"]').remove();
                     });
-                },
-                Cancel: function () {
-                    $(this).dialog("close");
-                }
-            }
-        });
+        };
+        window.receivingApp.utility.deletePopup.open("Delete this vendor?", deleteFunction());
+
 
         return false;
     });
