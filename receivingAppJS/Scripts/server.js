@@ -93,18 +93,18 @@
     $.mockjax({
         url: '/Part/DiscontinuedParts',
         response: function(settings) {
-            this.responseText = _.filter(parts.get(), function(part) {
+            this.responseText = _.chain(parts.get()).filter(function(part) {
                 return part.Discontinued;
-            })
+            }).sortBy(function(part){return part.Name}).value();
         }
     });
 
     $.mockjax({
         url: '/Part/CurrentParts',
         response: function(settings) {
-            this.responseText = _.filter(parts.get(), function(part) {
+            this.responseText = _.chain(parts.get()).filter(function(part) {
                 return !part.Discontinued;
-            })
+            }).sortBy(function(part){return part.Name}).value();
         }
     });
 
@@ -144,7 +144,7 @@
     $.mockjax({
         url: '/Vendor/CurrentVendors',
         response: function(settings) {
-            this.responseText = vendors.get();
+            this.responseText = _.sortBy(vendors.get(), function(vendor){return vendor.Name});
         }
     });
 
