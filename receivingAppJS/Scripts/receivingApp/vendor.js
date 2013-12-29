@@ -20,36 +20,8 @@ window.receivingApp.vendor = function () {
         });
     };
 
-
-    // loads/reloads the current vdndors grid
-    var loadCurrentVendors = function () {
-        $.ajax({
-            url: '/Vendor/CurrentVendors',
-            type: 'GET',
-            context: this,
-            dataType: "json"
-        }).done(function (result) {
-                var markup = '<table class="table" id="vendorsList"><tr><th>Name</th><th>Address 1</th><th>City</th><th>State</th><th>Zip</th><th></th></tr>';
-
-                _.each(result, function (item) {
-                    markup += '<tr data-vendorid="' + item.Id + '">' +
-                        '<input type="hidden" name="id" value="' + item.Id + '" />' +
-                        '<td>' + item.Name + '</td>' +
-                        '<td>' + item.Address1 + '</td>' +
-                        '<td>' + item.City + '</td>' +
-                        '<td>' + item.State + '</td>' +
-                        '<td>' + item.Zip + '</td>' +
-                        '<td><a class="deleteVendorLink" href="#">Delete</a></td>' +
-                        '</tr>';
-                });
-
-                markup += "</table>";
-
-                $('#currentVendors').html(markup);
-            });
-
-
-    };
+    // define the current vendors grid
+    var currentVendors = new window.receivingApp.currentVendorList();
 
     // initializes the create new link to use the vendor popup object
     var popup = new window.receivingApp.createVendorPopup();
@@ -63,14 +35,13 @@ window.receivingApp.vendor = function () {
     var initialize = function () {
         initializeCreateNewLink();
         initializeDeleteLink();
-        loadCurrentVendors();
+        currentVendors.loadGrid();
     };
 
     return {
         initialize: initialize,
         initializeDeleteLink: initializeDeleteLink,
         initializeCreateNewLink: initializeCreateNewLink,
-        loadCurrentVendors: loadCurrentVendors
     };
 };
 
@@ -103,3 +74,37 @@ window.receivingApp.createVendorPopup = function() {
     };
 };
 window.receivingApp.createVendorPopup.prototype = new window.receivingApp.createObjectPopup();
+
+window.receivingApp.currentVendorList = function () {
+    var loadGrid = function() {
+        $.ajax({
+            url: '/Vendor/CurrentVendors',
+            type: 'GET',
+            context: this,
+            dataType: "json"
+        }).done(function (result) {
+                var markup = '<table class="table" id="vendorsList"><tr><th>Name</th><th>Address 1</th><th>City</th><th>State</th><th>Zip</th><th></th></tr>';
+
+                _.each(result, function (item) {
+                    markup += '<tr data-vendorid="' + item.Id + '">' +
+                        '<input type="hidden" name="id" value="' + item.Id + '" />' +
+                        '<td>' + item.Name + '</td>' +
+                        '<td>' + item.Address1 + '</td>' +
+                        '<td>' + item.City + '</td>' +
+                        '<td>' + item.State + '</td>' +
+                        '<td>' + item.Zip + '</td>' +
+                        '<td><a class="deleteVendorLink" href="#">Delete</a></td>' +
+                        '</tr>';
+                });
+
+                markup += "</table>";
+
+                $('#currentVendors').html(markup);
+            });
+
+    };
+
+    return {
+        loadGrid: loadGrid
+    }
+};

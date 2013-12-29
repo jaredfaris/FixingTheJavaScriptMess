@@ -39,68 +39,26 @@ window.receivingApp.part = function () {
             if (!isShowing) {
                 // show the parts
                 $('#toggleDiscontinuedParts').text('Hide Discontinued Parts').addClass('expanded');
-                loadDiscontinuedParts();
+                discontinuedParts.loadGrid();
             } else {
                 // hide the parts
                 $('#toggleDiscontinuedParts').text('Show Discontinued Parts').removeClass('expanded');
-                $('#discontinuedParts').html('');
+                discontinuedParts.emptyGrid();
             }
         });
     };
 
-    // loads/reloads the discontinued parts grid
-    var loadDiscontinuedParts = function () {
-        $.ajax({
-            url: '/Part/DiscontinuedParts',
-            type: 'GET',
-            context: this,
-            dataType: "json"
-        }).done(function (result) {
-                var markup = '<table class="table"><tr><th>Name</th><th>Weight</th><th></th></tr>';
 
-                _.each(result, function (item) {
-                    markup += "<tr><td>" + item.Name + "</td><td>" + item.Weight + "</td><td></td></tr>";
-                });
-
-                markup += "</table>";
-
-                $('#discontinuedParts').html(markup);
-            });
-    };
-
-    // loads/reloads the current parts grid
-    var loadCurrentParts = function () {
-        // load the current parts at page load
-        $.ajax({
-            url: '/Part/CurrentParts',
-            type: 'GET',
-            context: this,
-            dataType: "json"
-        }).done(function (result) {
-                var markup = '<table class="table" id="partsList"><tr><th>Name</th><th>Weight</th><th></th></tr>';
-
-                _.each(result, function (item) {
-                    markup += "<tr data-partid=\"" + item.Id + "\">" +
-                        "<input type=\"hidden\" class=\"partId\" value=\"" + item.Id + "\"/>" +
-                        "<td>" + item.Name + "</td>" +
-                        "<td>" + item.Weight + "</td>" +
-                        "<td><a class=\"deletePartLink\" href=\"#\">Delete</a></td></tr>";
-                });
-
-                markup += "</table>";
-
-                $('#currentParts').html(markup);
-                $('#currentParts').html(markup);
-            });
-
-    };
+    // define the different grids
+    var currentParts = new window.receivingApp.currentPartList();
+    var discontinuedParts = new window.receivingApp.discontinuedPartList();
 
     // initializes everything. called once at page load
     var initialize = function () {
         this.initializeDeleteLink();
         this.initializeCreateNewLink();
         this.initializeToggleDiscontinuedLink();
-        this.loadCurrentParts();
+        currentParts.loadGrid();
     };
 
     return {
@@ -108,8 +66,6 @@ window.receivingApp.part = function () {
         initializeDeleteLink: initializeDeleteLink,
         initializeCreateNewLink: initializeCreateNewLink,
         initializeToggleDiscontinuedLink: initializeToggleDiscontinuedLink,
-        loadCurrentParts: loadCurrentParts,
-        loadDiscontinuedParts: loadDiscontinuedParts
     };
 };
 
@@ -139,3 +95,64 @@ window.receivingApp.createPartPopup = function() {
     }
 };
 window.receivingApp.createPartPopup.prototype = new window.receivingApp.createObjectPopup();
+
+window.receivingApp.currentPartList = function () {
+    var loadGrid = function() {
+        // load the current parts at page load
+        $.ajax({
+            url: '/Part/CurrentParts',
+            type: 'GET',
+            context: this,
+            dataType: "json"
+        }).done(function (result) {
+                var markup = '<table class="table" id="partsList"><tr><th>Name</th><th>Weight</th><th></th></tr>';
+
+                _.each(result, function (item) {
+                    markup += "<tr data-partid=\"" + item.Id + "\">" +
+                        "<input type=\"hidden\" class=\"partId\" value=\"" + item.Id + "\"/>" +
+                        "<td>" + item.Name + "</td>" +
+                        "<td>" + item.Weight + "</td>" +
+                        "<td><a class=\"deletePartLink\" href=\"#\">Delete</a></td></tr>";
+                });
+
+                markup += "</table>";
+
+                $('#currentParts').html(markup);
+                $('#currentParts').html(markup);
+            });
+    };
+
+    return {
+        loadGrid: loadGrid
+    }
+};
+
+window.receivingApp.discontinuedPartList = function () {
+    var loadGrid = function() {
+        $.ajax({
+            url: '/Part/DiscontinuedParts',
+            type: 'GET',
+            context: this,
+            dataType: "json"
+        }).done(function (result) {
+                var markup = '<table class="table"><tr><th>Name</th><th>Weight</th><th></th></tr>';
+
+                _.each(result, function (item) {
+                    markup += "<tr><td>" + item.Name + "</td><td>" + item.Weight + "</td><td></td></tr>";
+                });
+
+                markup += "</table>";
+
+                $('#discontinuedParts').html(markup);
+            });
+    };
+
+    var emptyGrid = function() {
+        $('#discontinuedParts').html('');
+    }
+
+    return {
+        loadGrid: loadGrid,
+        emptyGrid: emptyGrid
+    }
+};
