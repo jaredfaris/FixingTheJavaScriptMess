@@ -20,49 +20,6 @@ window.receivingApp.vendor = function () {
         });
     };
 
-    // initializes the create new link to open a popup window
-    var initializeCreateNewLink = function () {
-        $('#createNewVendor').on('click', function () {
-            $('#createNewVendorForm').dialog({
-                resizable: false,
-                width: 500,
-                modal: true,
-                title: "New Vendor",
-                buttons: {
-                    "Create": function () {
-                        var data = $('#createNewVendorForm').serialize();
-                        $.ajax({
-                            type: 'POST',
-                            url: '/Vendor/Create',
-                            data: data,
-                            context: this,
-                            title: "New Vendor",
-                            dataType: "json"
-                        }).done(function (result) {
-                                // Look at all this lovely markup
-                                $('#vendorsList tbody').append('' +
-                                    '<tr data-vendorid="' + result.Id + '"><input type="hidden" name="id" value="' + result.Id + '">' +
-                                    '<td>' + result.Name + '</td>' +
-                                    '<td>' + result.Address1 + '</td>' +
-                                    '<td>' + result.City + '</td>' +
-                                    '<td>' + result.State + '</td>' +
-                                    '<td>' + result.Zip + '</td>' +
-                                    '<td><a class="deleteVendorLink" href="#">Delete</a>' +
-                                    '</form></td>');
-
-                                $(this).dialog("close");
-                                $(this).find('input').val('');
-                            });
-
-                    },
-                    Cancel: function () {
-                        $(this).dialog("close");
-                        $(this).first('input').val('');
-                    }
-                }
-            });
-        });
-    };
 
     // loads/reloads the current vdndors grid
     var loadCurrentVendors = function () {
@@ -94,6 +51,45 @@ window.receivingApp.vendor = function () {
 
     };
 
+    // defines the create vendor popup object
+    var createVendorPopup = function() {
+        this.title = "New Vendor";
+        this.formId = "createNewVendorForm";
+        this.createFunction = function () {
+            var data = $(this).serialize();
+            $.ajax({
+                type: 'POST',
+                url: "/Vendor/Create",
+                data: data,
+                context: this,
+                dataType: "json"
+            }).done(function (result) {
+                    $('#vendorsList tbody').append('' +
+                        '<tr data-vendorid="' + result.Id + '"><input type="hidden" name="id" value="' + result.Id + '">' +
+                        '<td>' + result.Name + '</td>' +
+                        '<td>' + result.Address1 + '</td>' +
+                        '<td>' + result.City + '</td>' +
+                        '<td>' + result.State + '</td>' +
+                        '<td>' + result.Zip + '</td>' +
+                        '<td><a class="deleteVendorLink" href="#">Delete</a>' +
+                        '</form></td>');
+
+                    $(this).dialog("close");
+                    $(this).find('input').val('');
+                });
+        };
+    };
+    createVendorPopup.prototype = new window.receivingApp.createObjectPopup();
+    var popup = new createVendorPopup();
+
+    // initializes the create new link to use the vendor popup object
+    var initializeCreateNewLink = function () {
+        $('#createNewVendor').on('click', function () {
+            popup.openDialog();
+        });
+    };
+
+
     var initialize = function () {
         initializeCreateNewLink();
         initializeDeleteLink();
@@ -104,6 +100,6 @@ window.receivingApp.vendor = function () {
         initialize: initialize,
         initializeDeleteLink: initializeDeleteLink,
         initializeCreateNewLink: initializeCreateNewLink,
-        loadCurrentVendors: loadCurrentVendors,
+        loadCurrentVendors: loadCurrentVendors
     };
 };

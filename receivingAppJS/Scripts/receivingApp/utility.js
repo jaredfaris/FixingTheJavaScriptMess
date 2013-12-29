@@ -23,5 +23,22 @@ utility.deletePopup = {
     }
 };
 
+window.receivingApp.createObjectPopup = function () {
+    this.openDialog = function() {
+        $('#' + this.formId).dialog({
+            resizable: false,
+            width: 500,
+            modal: true,
+            title: this.title,
+            buttons: {
+                "Create": this.createFunction,
+                Cancel: function () {
+                    $(this).dialog("close");
+                    $(this).first('input').val('');
+                }
+            }
+        });
 
+    }
+};
 
