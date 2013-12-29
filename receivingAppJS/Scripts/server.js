@@ -74,7 +74,7 @@
         }
     };
 
-    if (parts.get().length == 0  || vendors.get().length == 0) {
+    if (parts.get() == undefined || parts.get().length == 0  || vendors.get() == undefined || vendors.get().length == 0) {
         alert("Resetting the data because an array is empty!")
         resetModels()
     }
