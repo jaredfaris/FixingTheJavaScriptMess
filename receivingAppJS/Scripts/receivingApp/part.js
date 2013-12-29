@@ -20,36 +20,8 @@ window.receivingApp.part = function () {
         });
     };
 
-    // defines the create part popup
-    var createPartPopup = function() {
-        this.title = "New Part";
-        this.formId = "createNewPartForm";
-        this.createFunction = function() {
-            var data = $(this).serialize();
-            $.ajax({
-                type: 'POST',
-                url: '/Part/Create',
-                data: data,
-                context: this,
-                dataType: "json"
-            }).done(function (result) {
-                    // Look at all this lovely markup
-                    $('#partsList tbody').append('' +
-                        '<tr data-partid="' + result.Id + '"><input type="hidden" name="id" value="' + result.Id + '">' +
-                        '<td>' + result.Name + '</td>' +
-                        '<td>' + result.Weight + '</td>' +
-                        '<td><a class="deletePartLink" href="#">Delete</a>' +
-                        '</form></td>');
-
-                    $(this).dialog("close");
-                    $(this).find('input').val('');
-                });
-        }
-    };
-    createPartPopup.prototype = new window.receivingApp.createObjectPopup();
-    var popup = new createPartPopup();
-
     // initializes the create new link to use the vendor popup object
+    var popup = new window.receivingApp.createPartPopup();
     var initializeCreateNewLink = function () {
         $('#createNewPart').on('click', function () {
             popup.openDialog();
@@ -140,3 +112,30 @@ window.receivingApp.part = function () {
         loadDiscontinuedParts: loadDiscontinuedParts
     };
 };
+
+window.receivingApp.createPartPopup = function() {
+    this.title = "New Part";
+    this.formId = "createNewPartForm";
+    this.createFunction = function() {
+        var data = $(this).serialize();
+        $.ajax({
+            type: 'POST',
+            url: '/Part/Create',
+            data: data,
+            context: this,
+            dataType: "json"
+        }).done(function (result) {
+                // Look at all this lovely markup
+                $('#partsList tbody').append('' +
+                    '<tr data-partid="' + result.Id + '"><input type="hidden" name="id" value="' + result.Id + '">' +
+                    '<td>' + result.Name + '</td>' +
+                    '<td>' + result.Weight + '</td>' +
+                    '<td><a class="deletePartLink" href="#">Delete</a>' +
+                    '</form></td>');
+
+                $(this).dialog("close");
+                $(this).find('input').val('');
+            });
+    }
+};
+window.receivingApp.createPartPopup.prototype = new window.receivingApp.createObjectPopup();

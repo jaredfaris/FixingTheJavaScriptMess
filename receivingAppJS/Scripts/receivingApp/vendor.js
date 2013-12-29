@@ -51,38 +51,8 @@ window.receivingApp.vendor = function () {
 
     };
 
-    // defines the create vendor popup object
-    var createVendorPopup = function() {
-        this.title = "New Vendor";
-        this.formId = "createNewVendorForm";
-        this.createFunction = function () {
-            var data = $(this).serialize();
-            $.ajax({
-                type: 'POST',
-                url: "/Vendor/Create",
-                data: data,
-                context: this,
-                dataType: "json"
-            }).done(function (result) {
-                    $('#vendorsList tbody').append('' +
-                        '<tr data-vendorid="' + result.Id + '"><input type="hidden" name="id" value="' + result.Id + '">' +
-                        '<td>' + result.Name + '</td>' +
-                        '<td>' + result.Address1 + '</td>' +
-                        '<td>' + result.City + '</td>' +
-                        '<td>' + result.State + '</td>' +
-                        '<td>' + result.Zip + '</td>' +
-                        '<td><a class="deleteVendorLink" href="#">Delete</a>' +
-                        '</form></td>');
-
-                    $(this).dialog("close");
-                    $(this).find('input').val('');
-                });
-        };
-    };
-    createVendorPopup.prototype = new window.receivingApp.createObjectPopup();
-    var popup = new createVendorPopup();
-
     // initializes the create new link to use the vendor popup object
+    var popup = new window.receivingApp.createVendorPopup();
     var initializeCreateNewLink = function () {
         $('#createNewVendor').on('click', function () {
             popup.openDialog();
@@ -103,3 +73,33 @@ window.receivingApp.vendor = function () {
         loadCurrentVendors: loadCurrentVendors
     };
 };
+
+
+window.receivingApp.createVendorPopup = function() {
+    this.title = "New Vendor";
+    this.formId = "createNewVendorForm";
+    this.createFunction = function () {
+        var data = $(this).serialize();
+        $.ajax({
+            type: 'POST',
+            url: "/Vendor/Create",
+            data: data,
+            context: this,
+            dataType: "json"
+        }).done(function (result) {
+                $('#vendorsList tbody').append('' +
+                    '<tr data-vendorid="' + result.Id + '"><input type="hidden" name="id" value="' + result.Id + '">' +
+                    '<td>' + result.Name + '</td>' +
+                    '<td>' + result.Address1 + '</td>' +
+                    '<td>' + result.City + '</td>' +
+                    '<td>' + result.State + '</td>' +
+                    '<td>' + result.Zip + '</td>' +
+                    '<td><a class="deleteVendorLink" href="#">Delete</a>' +
+                    '</form></td>');
+
+                $(this).dialog("close");
+                $(this).find('input').val('');
+            });
+    };
+};
+window.receivingApp.createVendorPopup.prototype = new window.receivingApp.createObjectPopup();
