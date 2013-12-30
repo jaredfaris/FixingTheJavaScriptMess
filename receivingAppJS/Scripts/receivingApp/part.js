@@ -6,12 +6,6 @@ window.receivingApp.part = function () {
 
             var partId = $(this).parents('tr').data('partid');
 
-            var updateGrids = function() {
-                currentParts.loadGrid();
-                discontinuedParts.loadGrid();
-            }
-            updateGrids = _.bind(updateGrids, this);
-
             var deleteFunction = function () {
                 $.ajax({
                     type: "POST",
@@ -19,7 +13,7 @@ window.receivingApp.part = function () {
                     data: { Id: partId },
                     context: this
                 }).done(function () {
-                        updateGrids();
+                        amplify.publish("partDeleted");
                 });
             };
             window.receivingApp.utility.deletePopup.open("Delete this vendor?", deleteFunction);
@@ -96,7 +90,7 @@ window.receivingApp.createPartPopup = function(currentPartGrid) {
             context: this,
             dataType: "json"
         }).done(function () {
-                updateGrid();
+                amplify.publish("newPartCreated");
 
                 $(this).dialog("close");
                 $(this).find('input').val('');
@@ -121,6 +115,14 @@ window.receivingApp.currentPartList = function () {
                 $('#currentParts').html(markup);
             });
     };
+
+    // listen for events that make us want to load the grid
+    amplify.subscribe("newPartCreated", function() {
+        loadGrid();
+    });
+    amplify.subscribe("partDeleted", function() {
+        loadGrid();
+    });
 
     return {
         loadGrid: loadGrid
@@ -158,6 +160,10 @@ window.receivingApp.discontinuedPartList = function () {
         isVisible = false;
         loadGrid();
     }
+
+    amplify.subscribe("partDeleted", function() {
+        loadGrid();
+    });
 
     return {
         loadGrid: loadGrid,

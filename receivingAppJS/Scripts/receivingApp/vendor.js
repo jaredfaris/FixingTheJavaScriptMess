@@ -6,18 +6,13 @@ window.receivingApp.vendor = function () {
 
             var vendorId = $(this).parents('tr').data('vendorid');
 
-            var updateGrid = function() {
-                currentVendors.loadGrid();
-            }
-            updateGrid = _.bind(updateGrid, this);
-
             var deleteAjax = function () {
                 $.ajax({
                     type: "POST",
                     url: "/Vendor/Delete",
                     data: { Id: vendorId }
                 }).done(function () {
-                    updateGrid();
+                    amplify.publish("vendorDeleted");
                 });
             };
             window.receivingApp.utility.deletePopup.open("Delete this vendor?", deleteAjax);
@@ -96,6 +91,13 @@ window.receivingApp.currentVendorList = function () {
             });
 
     };
+
+    amplify.subscribe("newVendorCreated", function() {
+        loadGrid();
+    });
+    amplify.subscribe("vendorDeleted", function() {
+        loadGrid();
+    });
 
     return {
         loadGrid: loadGrid
