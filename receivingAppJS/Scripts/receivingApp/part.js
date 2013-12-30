@@ -36,11 +36,11 @@ window.receivingApp.part = function () {
             if (!isShowing) {
                 // show the parts
                 $('#toggleDiscontinuedParts').text('Hide Discontinued Parts').addClass('expanded');
-                discontinuedParts.loadGrid();
+                discontinuedParts.show();
             } else {
                 // hide the parts
                 $('#toggleDiscontinuedParts').text('Show Discontinued Parts').removeClass('expanded');
-                discontinuedParts.emptyGrid();
+                discontinuedParts.hide();
             }
         });
     };
@@ -137,13 +137,16 @@ window.receivingApp.currentPartList = function () {
 };
 
 window.receivingApp.discontinuedPartList = function () {
+    var isVisible = false;
+
     var loadGrid = function() {
-        $.ajax({
-            url: '/Part/DiscontinuedParts',
-            type: 'GET',
-            context: this,
-            dataType: "json"
-        }).done(function (result) {
+        if (isVisible) {
+            $.ajax({
+                url: '/Part/DiscontinuedParts',
+                type: 'GET',
+                context: this,
+                dataType: "json"
+            }).done(function (result) {
                 var markup = '<table class="table"><tr><th>Name</th><th>Weight</th><th></th></tr>';
 
                 _.each(result, function (item) {
@@ -154,14 +157,24 @@ window.receivingApp.discontinuedPartList = function () {
 
                 $('#discontinuedParts').html(markup);
             });
+        } else {
+            $('#discontinuedParts').html('');
+        }
     };
 
-    var emptyGrid = function() {
-        $('#discontinuedParts').html('');
+    var show = function() {
+        isVisible = true;
+        loadGrid();
+    }
+
+    var hide = function() {
+        isVisible = false;
+        loadGrid();
     }
 
     return {
         loadGrid: loadGrid,
-        emptyGrid: emptyGrid
+        show: show,
+        hide: hide
     }
 };
