@@ -108,10 +108,19 @@ window.receivingApp.currentPartList = function () {
             context: this,
             dataType: "json"
         }).done(function (result) {
-                var template = $('#partListTemplate').html();
+                var markup = '<table class="table" id="partsList"><tr><th>Name</th><th>Weight</th><th></th></tr>';
 
-                var markup = _.template(template, {result: result});
+                _.each(result, function (item) {
+                    markup += "<tr data-partid=\"" + item.Id + "\">" +
+                        "<input type=\"hidden\" class=\"partId\" value=\"" + item.Id + "\"/>" +
+                        "<td>" + item.Name + "</td>" +
+                        "<td>" + item.Weight + "</td>" +
+                        "<td><a class=\"deletePartLink\" href=\"#\">Delete</a></td></tr>";
+                });
 
+                markup += "</table>";
+
+                $('#currentParts').html(markup);
                 $('#currentParts').html(markup);
             });
     };
@@ -140,9 +149,13 @@ window.receivingApp.discontinuedPartList = function () {
                 context: this,
                 dataType: "json"
             }).done(function (result) {
-                var template = $('#discontinuedPartListTemplate').html();
+                var markup = '<table class="table"><tr><th>Name</th><th>Weight</th><th></th></tr>';
 
-                var markup = _.template(template, {result: result});
+                _.each(result, function (item) {
+                    markup += "<tr><td>" + item.Name + "</td><td>" + item.Weight + "</td><td></td></tr>";
+                });
+
+                markup += "</table>";
 
                 $('#discontinuedParts').html(markup);
             });

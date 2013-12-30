@@ -83,9 +83,21 @@ window.receivingApp.currentVendorList = function () {
             context: this,
             dataType: "json"
         }).done(function (result) {
-                var template = $('#vendorListTemplate').html();
+                var markup = '<table class="table" id="vendorsList"><tr><th>Name</th><th>Address 1</th><th>City</th><th>State</th><th>Zip</th><th></th></tr>';
 
-                var markup = _.template(template, {result: result});
+                _.each(result, function (item) {
+                    markup += '<tr data-vendorid="' + item.Id + '">' +
+                        '<input type="hidden" name="id" value="' + item.Id + '" />' +
+                        '<td>' + item.Name + '</td>' +
+                        '<td>' + item.Address1 + '</td>' +
+                        '<td>' + item.City + '</td>' +
+                        '<td>' + item.State + '</td>' +
+                        '<td>' + item.Zip + '</td>' +
+                        '<td><a class="deleteVendorLink" href="#">Delete</a></td>' +
+                        '</tr>';
+                });
+
+                markup += "</table>";
 
                 $('#currentVendors').html(markup);
             });
