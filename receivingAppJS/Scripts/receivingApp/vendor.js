@@ -6,16 +6,20 @@ window.receivingApp.vendor = function () {
 
             var vendorId = $(this).parents('tr').data('vendorid');
 
+            var updateGrid = function() {
+                currentVendors.loadGrid();
+            }
+            updateGrid = _.bind(updateGrid, this);
+
             var deleteAjax = function () {
                 $.ajax({
                     type: "POST",
                     url: "/Vendor/Delete",
                     data: { Id: vendorId }
                 }).done(function () {
-                        $('#vendorsList').find('tr[data-vendorid="' + vendorId + '"]').remove();
-                    });
-            }
-
+                    updateGrid();
+                });
+            };
             window.receivingApp.utility.deletePopup.open("Delete this vendor?", deleteAjax);
         });
     };
@@ -24,9 +28,11 @@ window.receivingApp.vendor = function () {
     var currentVendors = new window.receivingApp.currentVendorList();
 
     // initializes the create new link to use the vendor popup object
-    var popup = new window.receivingApp.createVendorPopup();
+    var popup = new window.receivingApp.createVendorPopup(currentVendors);
     var initializeCreateNewLink = function () {
-        $('#createNewVendor').on('click', function () {
+        $('#createNewVendor').on('click', function (event) {
+            event.preventDefault();
+
             popup.openDialog();
         });
     };
@@ -41,14 +47,21 @@ window.receivingApp.vendor = function () {
     return {
         initialize: initialize,
         initializeDeleteLink: initializeDeleteLink,
-        initializeCreateNewLink: initializeCreateNewLink,
+        initializeCreateNewLink: initializeCreateNewLink
     };
 };
 
 
-window.receivingApp.createVendorPopup = function() {
+window.receivingApp.createVendorPopup = function(currentVendorGrid) {
     this.title = "New Vendor";
     this.formId = "createNewVendorForm";
+
+    // we want to force the context to be the grid that was passed in when we call update
+    // otherwise we'll be referring to the dialog window
+    var updateGrid = function() {
+        currentVendorGrid.loadGrid()
+    };
+
     this.createFunction = function () {
         var data = $(this).serialize();
         $.ajax({
@@ -58,15 +71,7 @@ window.receivingApp.createVendorPopup = function() {
             context: this,
             dataType: "json"
         }).done(function (result) {
-                $('#vendorsList tbody').append('' +
-                    '<tr data-vendorid="' + result.Id + '"><input type="hidden" name="id" value="' + result.Id + '">' +
-                    '<td>' + result.Name + '</td>' +
-                    '<td>' + result.Address1 + '</td>' +
-                    '<td>' + result.City + '</td>' +
-                    '<td>' + result.State + '</td>' +
-                    '<td>' + result.Zip + '</td>' +
-                    '<td><a class="deleteVendorLink" href="#">Delete</a>' +
-                    '</form></td>');
+                updateGrid();
 
                 $(this).dialog("close");
                 $(this).find('input').val('');
