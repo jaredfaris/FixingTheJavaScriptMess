@@ -131,7 +131,7 @@
             var allParts = parts.get();
 
             var newPart = dataToObject(settings.data);
-            var maxId = _.max(allParts, function(part) { return part.Id });
+            var maxId = _.max(allParts, function(part) { return part.Id }).Id;
             newPart.Id = maxId + 1;
             newPart.Discontinued = false;
             allParts.push(newPart);
@@ -168,7 +168,7 @@
             var allVendors = vendors.get();
 
             var newVendor = dataToObject(settings.data);
-            var maxId = _.max(allVendors, function(vendor) { return vendor.Id });
+            var maxId = _.max(allVendors, function(vendor) { return vendor.Id }).Id;
             newVendor.Id = maxId + 1;
             allVendors.push(newVendor);
             this.responseText = newVendor;
